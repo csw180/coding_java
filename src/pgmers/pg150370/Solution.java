@@ -2,10 +2,8 @@ package pgmers.pg150370;
 
 import java.util.HashMap;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
 
 public class Solution {
     public int[] solution(String today, String[] terms, String[] privacies) {
