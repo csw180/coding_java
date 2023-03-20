@@ -1,0 +1,83 @@
+package bj.bj15650;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+class Permutation {
+
+    int[] arr;
+    int n;     // 전체원소갯수
+    int m;     // 선택원소갯수
+    List<String> results;
+
+    Permutation(int[] arr, int m) {
+        this.arr = arr;
+        this.results = new ArrayList<String>();
+        n = arr.length;
+        this.m = m;
+    }
+
+    List<String> getResult() {
+        int[] result = new int[m];
+        boolean[] visit = new boolean[n];
+        recursive(result,visit,0);
+        return results;
+    }
+
+    // 중복없이 m 개를 고른 수열
+    // 수열은 오름차준
+    private void recursive(int[] result, boolean[] visit,int depth) {
+        if  (m == depth) {
+            StringBuilder sb = new StringBuilder();
+            for (int r : result) sb.append(r).append(' ');
+            this.results.add(sb.toString().trim());
+            return;
+        }
+        int start = (depth-1 > 0) ? result[depth-1]: result[0]; // 점점커지는 경우만 대상
+        for (int i=start;i<n;i++) {
+            if (!visit[i]) {
+                visit[i] = true;
+                result[depth] = arr[i];
+                recursive(result, visit,depth+1);
+                visit[i] = false;
+            }
+        }
+    }
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        try {
+            String line = br.readLine();
+            StringTokenizer tokens = new StringTokenizer(line);
+            int N = Integer.parseInt(tokens.nextToken());
+            int M = Integer.parseInt(tokens.nextToken());
+            int[] arr = new int[N];
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = i+1;
+            }
+
+            List<String> result = new Permutation(arr, M).getResult();
+            for (String string : result) {
+                bw.write(string+"\n");
+            }
+            bw.flush();
+            br.close();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
