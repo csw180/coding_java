@@ -86,7 +86,7 @@ public class Main {
             for (int i = 0; i < N ; i++) {
                 line = br.readLine();
                 tokens = new StringTokenizer(line);
-                while (tokens.hasMoreElements()) {
+                while (tokens.hasMoreTokens()) {
                     board[boardIdx] = Integer.parseInt(tokens.nextToken());
                     boardIdx ++;
                 }
@@ -98,7 +98,7 @@ public class Main {
                 // bw.write(string+"\n");
                 StringTokenizer toc = new StringTokenizer(string);
                 int subSum =  0;
-                while (toc.hasMoreElements()) {
+                while (toc.hasMoreTokens()) {
                     subSum += board[Integer.parseInt(toc.nextToken())];
                 }
                 maxValue =  Math.max(maxValue,subSum);
