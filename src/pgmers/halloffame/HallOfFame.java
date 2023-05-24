@@ -15,7 +15,7 @@ public class HallOfFame {
         PriorityQueue<Integer> q = new PriorityQueue<>();
 
         for(int score:scores) {
-            q.add(new Integer(score));
+            q.add(score);
             if (q.size() > k) 
                 q.poll();
             answer[answerIdx] = q.peek();
