@@ -25,6 +25,7 @@ public class Solution {
         }
         // sumOfRow[startRow-1][startColumn-1] += startNum + count;
         return startRow;
+        
     }
 
     public int[] solution(int n) {
