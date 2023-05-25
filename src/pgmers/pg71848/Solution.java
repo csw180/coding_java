@@ -1,47 +1,72 @@
+// 프로그래머서 삼각달팽이 (https://school.programmers.co.kr/tryouts/71848/challenges)
+
 package pgmers.pg71848;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Solution {
 
-    private void doSumOfRow(int[][] sumOfRow  // 각층의 숫자의 합산을 저장
-                    ,int startRow           // 층이동할 시작층
-                    ,int startColumn
-                    ,int startNum           // 각 층에 합산할 시작숫자
-                    ,int count              // 층이동 갯수
-                    ,String direction) {    // 어느 방향으로 이동할것인가(down,up,fix)
+    private List<Integer> doSumOfRow(int[][] sumOfRow
+                    ,int row           
+                    ,int col
+                    ,int startNum           // 시작숫자
+                    ,int count              // 이동 갯수
+                    ,int direction) {       // 이동방향(0:down,1:fix,2:up)
 
-        for (int i = startNum ;i< startNum + count; i++ ) {
-            sumOfRow[startRow-1][startColumn-1] += i;
-            if (direction.equals("down"))  {
-                startRow++;
-            } else if (direction.equals("up"))  {
-                startRow--;
-                startColumn--;
-            } else if (direction.equals("fix"))  {
-                startColumn++;
+        sumOfRow[row-1][col-1] += startNum;
+        for (int i = startNum+1 ;i< startNum + count; i++ ) {
+            if (direction == 0)  {
+                row++;
+            } else if (direction == 2)  {
+                row--;
+                col--;
+            } else if (direction == 1)  {
+                col++;
             }
+            sumOfRow[row-1][col-1] += i;
         }
-        // sumOfRow[startRow-1][startColumn-1] += startNum + count;
-        return startRow;
-        
+        return Arrays.asList(row,col,startNum+count-1);
     }
 
     public int[] solution(int n) {
-        int[] answer = {};
+        int[] answer = new int[((n+1)*n)/2];
         int[][] sumOfRow = new int[n][n];
 
-        System.out.println( doSumOfRow(sumOfRow, 1, 1, 1, 5, "down"));
-        System.out.println( doSumOfRow(sumOfRow, 5, 2, 6, 4, "fix") );
-        System.out.println( doSumOfRow(sumOfRow, 4, 4, 10, 3, "up") );
-        System.out.println( doSumOfRow(sumOfRow, 3, 2, 13, 2, "down") );
-        System.out.println( doSumOfRow(sumOfRow, 4, 3, 15, 1, "fix") );
+        int startNum = 1;
+        int row = 1;
+        int col = 1;
 
+        for (int i=n; i>0; i--) {
+            int direction = (n-i)%3;
+            if (i<n) {
+                if (direction == 0)  {
+                    row++;
+                } else if (direction == 2)  {
+                    row--;
+                    col--;
+                } else if (direction == 1)  {
+                    col++;
+                }
+                startNum++;
+            }
+            List<Integer> returnList = doSumOfRow(sumOfRow, row, col, startNum, i, direction );
+            row = returnList.get(0);
+            col = returnList.get(1);
+            startNum = returnList.get(2);
+            // System.out.println(row + "," + col+","+startNum);
+        }
+
+        int answer_idx = 0;
         for (int i=0; i< n; i++)  {
-            for  (int j=0; j< n; j++)
-                System.out.print(sumOfRow[i][j] + " ");
-            System.out.print("\n");
+            for  (int j=0; j< n; j++) {
+                // System.out.print(sumOfRow[i][j] + " ");
+                if  (sumOfRow[i][j] != 0) {
+                    answer[answer_idx] = sumOfRow[i][j];
+                    answer_idx++;
+                }
+            }
+            // System.out.print("\n");
         }
         return answer;
     }
@@ -49,6 +74,6 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.solution(5);
+        System.out.println(Arrays.toString(solution.solution(5))); 
     }
 }
