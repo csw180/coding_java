@@ -1,5 +1,6 @@
 // 백준 최대공약수:1850 https://www.acmicpc.net/problem/1850
 
+
 package bj.bj1850;
 
 import java.io.BufferedReader;
